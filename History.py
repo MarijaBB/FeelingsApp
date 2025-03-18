@@ -11,9 +11,9 @@ class History:
         except FileNotFoundError as e:
             tk.messagebox.showerror("History file does not exist:\n{e}")
             return
-        self.history_text = tk.Text(root, height=10, width=50)
-        self.history_text.pack(pady=10)
-        #self.history_text.tag_configure("highlight", background="yellow")
+        self.history_text = tk.Text(root, height=10, width=55, font=("Helvetica", 11))
+        self.history_text.grid(row=2, column=2, columnspan=3,pady=5,padx=5)
+        
         self.show_history()
     def add_entry(self,feeling):
         try:
@@ -35,10 +35,18 @@ class History:
             history = self.file.read()
         except Exception as e:
             history = f"Error reading history.txt: {e}"
-        self.history_text.delete(1.0, tk.END)
+
+        self.history_text.config(state="normal")
+
+        self.history_text.delete(1.0, tk.END) #delete previous history
         self.history_text.insert(tk.END, history)
+
+        last_entry_len = self.history_text.search("\n", "1.0", tk.END)
+
         self.history_text.tag_configure("highlighted_text", background = "pink", foreground="black")
         self.history_text.tag_configure("black_text", foreground="black")
-        last_entry_len = self.history_text.search("\n", "1.0", tk.END)
-        self.history_text.tag_add("highlighted_text", "1.0", last_entry_len)
-        self.history_text.tag_add("black_text", last_entry_len, tk.END)
+
+        self.history_text.tag_add("highlighted_text", "1.0", last_entry_len)  # last_entry is highlighted
+        self.history_text.tag_add("black_text", last_entry_len, tk.END)       # every other entry is just plain text
+
+        self.history_text.config(state="disabled") #user input not allowed
