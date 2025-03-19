@@ -27,32 +27,38 @@ root.title("Feelings Logger")
 style = ttk.Style()
 style.configure("TButton", font=("Helvetica", 10, "bold"))
 
+main_frame = tk.Frame(root)
+main_frame.grid(row=0, column=0, sticky="nsew")
+
 # Create frames for the layout
-top_frame = tk.Frame(root)
-left_frame = tk.Frame(root)
-right_frame = tk.Frame(root)
-center_frame = tk.Frame(root)
+top_frame = tk.Frame(main_frame)
+left_frame = tk.Frame(main_frame)
+right_frame = tk.Frame(main_frame)
+center_frame = tk.Frame(main_frame)
 
 top_frame.grid(row=0, column=2, columnspan=3,pady=5,padx=5)
 left_frame.grid(row=1, column=1, rowspan=4,pady=5,padx=5)
 right_frame.grid(row=1, column=6, rowspan=3,pady=5,padx=5)
 center_frame.grid(row=1, column=2, columnspan=3,pady=5,padx=5)
 
-root.grid_rowconfigure(0, weight=1)  
-root.grid_rowconfigure(1, weight=0)  
-root.grid_rowconfigure(2, weight=1)  
 
-root.grid_columnconfigure(0, weight=1)  
-root.grid_columnconfigure(1, weight=0)  
-root.grid_columnconfigure(2, weight=1)  
+chart_frame = tk.Frame(root)
 
 # Store image references
 images = {}
 
-
 top_buttons = ["happy", "sad", "angry"]
 left_buttons = ["bored", "calm", "concerned","tired"]
 right_buttons = ["determined", "funky", "overstimulated", "socially anxious",]
+
+def show_main_frame():
+    chart_frame.grid_remove()
+    main_frame.grid(row=0, column=0, sticky="nsew")
+
+def show_chart_frame():
+    main_frame.grid_remove()
+    chart_frame.grid(row=2, column=2, sticky="nsew")
+    plot_chart(chart_frame)  # Show chart inside chart_frame
 
 def create_button(parent, feeling, img_file, row, column):
     try:
@@ -69,17 +75,21 @@ def create_button(parent, feeling, img_file, row, column):
 for i, feeling in enumerate(top_buttons):
     create_button(top_frame, feeling, feelings[feeling], 0, i)
 
-# Create buttons for the left frame (1st column)
+#buttons for the left frame 
 for i, feeling in enumerate(left_buttons):
     create_button(left_frame, feeling, feelings[feeling], i, 0)
 
-# Create buttons for the right frame (3rd column)
+#buttons for the right frame 
 for i, feeling in enumerate(right_buttons):
     create_button(right_frame, feeling, feelings[feeling], i, 0)
 
-#Create button for chart
-btn = ttk.Button(text='Analysis', command = plot_chart)
-btn.grid(row=5, column=2, pady=5)
+#analysis button for showing chart
+analysis_btn = ttk.Button(main_frame, text='Analysis', command = show_chart_frame)
+analysis_btn.grid(row=5, column=3, pady=5)
+
+#button for going back to main frame
+back_btn = ttk.Button(chart_frame, text="← Back", command=show_main_frame)
+back_btn.grid(row=1, column=1, sticky="w", padx=10, pady=5)
 
 # history and message widgets in the center
 history = History(center_frame)
@@ -87,5 +97,6 @@ history.show_history()
 
 message = Message(center_frame)
 
+show_main_frame() 
 root.mainloop()
 history.file.close()

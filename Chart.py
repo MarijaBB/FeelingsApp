@@ -1,7 +1,9 @@
 import tkinter as tk
+from tkinter import ttk 
 from tkinter import messagebox
 import matplotlib.pyplot as plt
 from collections import Counter, OrderedDict
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 HISTORY_FILE = "history.txt"
 
@@ -14,7 +16,7 @@ def read_history():
             return
     return  feelings_list
 
-def plot_chart():
+def plot_chart(chart_frame):
     feelings_list = read_history()
 
     if not feelings_list:
@@ -27,12 +29,24 @@ def plot_chart():
     feelings = list(sorted_feeling_counts.keys())
     counts = list(sorted_feeling_counts.values())
 
+    
+    fig, axes = plt.subplots(1, 2, figsize=(12, 6))
     # bar chart
-    plt.subplots(figsize=(10, 6)) 
-    plt.barh(feelings, counts, color='#FFDAB9')
-    plt.xticks(range(0, max(counts) + 1, 1))
-    plt.xlabel("Count")
-    plt.ylabel("Feelings")
-    plt.title("Feelings Frequency in History")
-    plt.show()
+    axes[0].barh(feelings, counts, color=plt.cm.Pastel1.colors)
+    axes[0].set_xlabel("Count")
+    axes[0].set_ylabel("Feelings")
+    axes[0].set_title("Feelings Frequency in History")
+    #pie chart
+    axes[1].pie(counts, labels=feelings, autopct="%1.1f%%", startangle=120, colors=plt.cm.Pastel1.colors)
+    axes[1].set_title("Feeling Distribution")
+    plt.tight_layout()
+    
+    global canvas
+    if "canvas" in globals():
+        canvas.get_tk_widget().destroy()  
+    canvas = FigureCanvasTkAgg(fig, master=chart_frame)
+    canvas_widget = canvas.get_tk_widget()
+    canvas_widget.grid(row=0,column=0, pady=5, padx=5)
+
+   # plt.show()
      
