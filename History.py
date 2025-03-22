@@ -13,8 +13,7 @@ class History:
             return
         self.history_text = tk.Text(root, height=10, width=55, font=("Helvetica", 11))
         self.history_text.grid(row=2, column=2, columnspan=3,pady=5,padx=5)
-        
-        self.show_history()
+
     def add_entry(self,feeling):
         try:
             self.file.seek(0)
