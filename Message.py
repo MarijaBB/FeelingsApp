@@ -27,14 +27,14 @@ class Message:
         self.message_text.delete(1.0, tk.END) # 1 means line number, 0 means column
         self.message_text.insert(tk.END, message)
 
-        self.message_text.tag_configure(color, foreground=color.split("_")[0])
+        self.message_text.tag_configure(color, foreground=color)
         self.message_text.tag_add(color, "1.0", tk.END)
         
         self.message_text.config(state="disabled") # Make it non-editable for user input
 
     def color_of_message(self, feeling):
         if feeling in ['happy','funky','calm','determined']:
-            return 'orange_text'
+            return 'orange'
         if feeling in ['bored','sad','socially anxious','concerned']:
-            return 'green_text'
-        return 'blue_text' ## ['angry','overstimulated','tired']
+            return 'green'
+        return 'blue' ## ['angry','overstimulated','tired']
