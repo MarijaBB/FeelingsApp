@@ -2,6 +2,7 @@
 <br> 
 
 Built-in modules that are used are: <br>
+- MySQL → storing user data and logged emotions
 - Tkinter → GUI  
 - Matplotlib → Charts  
 - Pillow → Image handling  
@@ -11,5 +12,6 @@ Built-in modules that are used are: <br>
 🔜 Upcoming features are: 
 - filtering logs by emotion or date 
 - exporting logging history and charts to pdf.<br>
+- login for users <br>
 
 ⏳ **Status**: In progress 
