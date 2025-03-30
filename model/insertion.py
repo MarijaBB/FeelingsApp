@@ -1,6 +1,7 @@
 import mysql.connector
 from datetime import datetime
 
+#easier and faster way through MySQL Workbench :)
 
 mydb = mysql.connector.connect(
   host='localhost',

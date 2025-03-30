@@ -20,7 +20,7 @@ def show_chart_frame():
     start.main_frame.grid_remove()
     search.search_frame.grid_remove()
     chart.chart_frame.grid(row=2, column=2, sticky="nsew")
-    chart.plot_chart() 
+    chart.plot_chart(1) 
 
 def show_search_frame():
     chart.chart_frame.grid_remove()
@@ -43,4 +43,3 @@ back_btn2.grid(row=1, column=1, sticky="w", padx=10, pady=5)
 
 show_main_frame() 
 root.mainloop()
-start.history.file.close()

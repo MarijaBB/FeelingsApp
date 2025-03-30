@@ -1,4 +1,5 @@
 import mysql.connector
+#easier and faster way through MySQL Workbench :)
 
 mydb = mysql.connector.connect(
   host="localhost",
