@@ -2,7 +2,7 @@
 <br> 
 
 Built-in modules that are used are: <br>
-- MySQL → storing user data and logged emotions
+- MySQL Connector → storing user data and logged emotions
 - Tkinter → GUI  
 - Matplotlib → Charts  
 - Pillow → Image handling  
