@@ -1,6 +1,6 @@
 from model import make_connection
 from datetime import datetime
-from services.hash_password import *
+import bcrypt
 
 def check_if_username_exists(username):
     mydb = make_connection.mydb_connection()
