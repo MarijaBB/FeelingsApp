@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import ttk
 from tkinter import messagebox
 import matplotlib.pyplot as plt
 from collections import Counter, OrderedDict
@@ -6,13 +7,18 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from model import History_methods
 
 class Chart:
-    def __init__(self, root):
+    def __init__(self, root, userId):
         self.chart_frame = tk.Frame(root)
         self.canvas = None
+        self.userId = userId
+        
+        back_btn = ttk.Button(self.chart_frame, text="← Back", command=lambda: self.go_back_to_main(root, userId))
+        back_btn.grid(row=1, column=1, sticky="w", padx=10, pady=5)
+        self.plot_chart()
 
 
-    def plot_chart(self,userId):
-        list_feeling_time = History_methods.readHistory(userId)
+    def plot_chart(self):
+        list_feeling_time = History_methods.readHistory(self.userId)
         feelings_list = [i for (i,_) in list_feeling_time]
 
         if not feelings_list:
@@ -41,3 +47,7 @@ class Chart:
         self.canvas = FigureCanvasTkAgg(fig, master=self.chart_frame)
         canvas_widget = self.canvas.get_tk_widget()
         canvas_widget.grid(row=0,column=0, pady=5, padx=5)
+        
+    def go_back_to_main(self, root, userId):
+        from view.show_main_frame import go_to_main_frame
+        go_to_main_frame(root, userId, self.chart_frame)

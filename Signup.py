@@ -1,14 +1,17 @@
 import tkinter as tk
 from tkinter import ttk
-from controller.signup import signup
-
+from services.validation import *
+from services.hash_password import hashing_password
+from model.Login_methods import *
+from view.show_login_frame import go_to_login_page
+from view.write_label import add_label
 class Signup:
     def __init__(self, root):
         self.signup_frame = tk.Frame(root)
         self.signup_frame.grid(row=0, column=0, sticky="nsew")
-        self.make_signup_page()
+        self.make_signup_page(root)
 
-    def make_signup_page(self):
+    def make_signup_page(self,root):
         ttk.Label(self.signup_frame, text="Sign Up", font=("Arial", 16)).grid(row=0, column=1, pady=10)
 
         # Username
@@ -28,24 +31,45 @@ class Signup:
 
         
         # Done Button
-        done_btn = ttk.Button(self.signup_frame, text="Done", command=lambda: self.signup_command(self.username_entry.get(),self.email_entry.get(),self.password_entry.get()))
+        done_btn = ttk.Button(self.signup_frame, text="Done", command=lambda: self.signup_command(self.username_entry.get(),self.email_entry.get(),self.password_entry.get(),root))
         done_btn.grid(row=4, column=1, pady=10)
         
-    def signup_command(self,username,email,password):
-        k = signup(username, email, password)
-        if k == 1: # successful signup
-            print('successfull signup ')
-            pass
-            #show_login_frame()
-        if k == 0:
-            self.add_label('That username already exists. Try again...')
-            self.make_signup_page()
-        if k == -1:
-            self.add_label('Email already exists...')
-            self.make_signup_page()
+        # 
+        self.login_button = tk.Button(
+            root,
+            text="Already have an account?",
+            fg="blue",
+            bg="white",
+            bd=0,
+            cursor="hand2",
+            font=("Helvetica", 9, "underline"),
+            activeforeground="blue",
+            activebackground="white",
+            command = lambda:(self.login_button.grid_remove(), go_to_login_page(root, self.signup_frame))
+        )
+        self.login_button.grid(row=5, column=2, pady=10)
         
-    
-    def add_label(self,text):
-        ttk.Label(self.signup_frame, text=text).grid(row=7, column=1, padx=10, pady=5, sticky="e")
+    def signup_command(self, username, email, password, root):
+        password_hash = hashing_password(password)
+        text = ''
+        if not is_username_good_format(username):
+           text = 'Bad format of username'
+        elif check_if_username_exists(username) is not None:
+           text = 'Username exists'
+        elif not is_email_good_format(email):
+           text = 'Bad format of email'
+        elif check_if_email_exists(email) is not None:
+           text = 'Email exists'
+        elif not is_password_good_format(password):
+           text = 'Bad format of password'
+        else:
+            new_user(username, email, password_hash)
+            self.login_button.grid_remove()
+            go_to_login_page(root, self.signup_frame)
+            return
+        add_label(text,self.signup_frame)
+        #self.login_button.grid_remove()
+        return
+        
         
     

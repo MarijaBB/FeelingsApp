@@ -1,5 +1,6 @@
 from model import make_connection
 from datetime import datetime
+from services.hash_password import *
 
 def check_if_username_exists(username):
     mydb = make_connection.mydb_connection()
@@ -9,7 +10,7 @@ def check_if_username_exists(username):
     mycursor.execute(sql, val)
     myresult = mycursor.fetchone()
     if myresult == None:
-        return -5
+        return None
     return myresult[0]
 
 
@@ -21,37 +22,30 @@ def check_if_email_exists(email):
     mycursor.execute(sql, val)
     myresult = mycursor.fetchone()
     if myresult == None:
-        return -5
+        return None
     return myresult[0]
 
-def check_is_password_correct(email, passwordhash):
+def check_is_password_correct(email, password):
     mydb = make_connection.mydb_connection()
     mycursor = mydb.cursor()
-    sql = 'SELECT UserId FROM Users WHERE Email = %s and PasswordHash = %s'
-    val = (email,passwordhash)
+    sql = 'SELECT PasswordHash,UserId FROM Users WHERE Email = %s'
+    val = (email,)
     mycursor.execute(sql, val)
     myresult = mycursor.fetchone()
     if myresult == None:
-        return -5
-    return myresult[0]
+        return None
+    
+    if bcrypt.checkpw(password.encode(), myresult[0].encode()):
+        return myresult[1]
+    
+    return None
+    
+    
 
-def new_user(username, email, passwordhash):
+def new_user(username, email, password_hash):
     mydb = make_connection.mydb_connection()
     mycursor = mydb.cursor()
     sql = 'INSERT INTO Users (UserName, Email, PasswordHash, CreatedAt) VALUES (%s,%s,%s,%s)'
-    val = [(username, email, passwordhash, datetime.now())]
+    val = [(username, email, password_hash, datetime.now())]
     mycursor.executemany(sql, val)
     mydb.commit()
-
-
-# when log in
-def old_user_userId(username, password_hash):
-    mydb = make_connection.mydb_connection()
-    mycursor = mydb.cursor()
-    sql = 'SELECT UserId FROM Users WHERE (UserName = %s or Email = %s) and passwordhash = %s'
-    val = (username,username, password_hash)
-    mycursor.executemany(sql, val)
-    myresult = mycursor.fetchone()
-    if myresult[0] > 0:
-        return myresult[0]
-    return -1

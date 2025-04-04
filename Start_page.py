@@ -4,15 +4,18 @@ from tkinter import ttk
 from History import History
 from Message import Message
 from model import Feelings_methods
+from view.show_search_frame import go_to_search_frame
+from view.show_chart_frame import go_to_chart_frame
+ 
 # login logic required, for now I use UserId = 1
 class Start_page:
-    def __init__(self, root):
+    def __init__(self, root, userId):
         self.main_frame = tk.Frame(root)
         self.main_frame.grid(row=0, column=0, sticky="nsew")
-        self.userId = 1
-        self.make_buttons()
+        self.userId = userId
+        self.make_buttons(root)
 
-    def make_buttons(self):   
+    def make_buttons(self,root):   
         self.images = {}
 
         style = ttk.Style()
@@ -47,6 +50,12 @@ class Start_page:
         #buttons for the right frame 
         for i, feelingId in enumerate(right_buttons):
             self.create_button(right_frame, feelingId, Feelings_methods.getImage(feelingId), i, 0)
+            
+        analysis_btn = ttk.Button(center_frame, text='Analysis', command = lambda: go_to_chart_frame(root, self.userId, self.main_frame))
+        analysis_btn.grid(row=5, column=3, pady=3)
+
+        search_btn = ttk.Button(center_frame, text='Filter', command = lambda: go_to_search_frame(root, self.userId, self.main_frame))
+        search_btn.grid(row=5, column=4, pady=3)
 
     def create_button(self, parent, feelingId, img_file, row, column):
         try:
@@ -59,5 +68,4 @@ class Start_page:
             btn.grid(row=row, column=column, pady=5)  # Position button in grid
         except Exception as e:
             print(f"Error loading image for {Feelings_methods.getFeelingName()}: {e}")
-
             
