@@ -9,7 +9,7 @@ Built-in modules that are used are: <br>
 - Pillow → Image handling  
 
 🔐 Users can register and log in to the application. <br>
-📥 All data, including user credentials, logged emotions, associated messages and emotion types, is stored in a relational database *feeldb*.
+📥 All data, including user credentials, logged emotions, associated messages and emotion types, is stored in a relational database *feeldb*.<br>
 📊 The app also provides an analysis feature that displays bar and pie charts of logged emotions over time.<br>
 💬 Based on chosen feeling, app displays message of support.<br>
 🔜 Upcoming features are: 
