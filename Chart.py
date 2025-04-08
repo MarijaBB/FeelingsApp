@@ -14,6 +14,7 @@ class Chart:
         
         back_btn = ttk.Button(self.chart_frame, text="← Back", command=lambda: self.go_back_to_main(root, userId))
         back_btn.grid(row=1, column=1, sticky="w", padx=10, pady=5)
+        self.chart_frame.grid(row=0, column=0, sticky="nsew")
         self.plot_chart()
 
 

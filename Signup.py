@@ -5,6 +5,7 @@ from services.hash_password import hashing_password
 from model.Login_methods import *
 from view.show_login_frame import go_to_login_page
 from view.write_label import add_label
+
 class Signup:
     def __init__(self, root):
         self.signup_frame = tk.Frame(root)
@@ -31,15 +32,19 @@ class Signup:
 
         
         # Done Button
-        done_btn = ttk.Button(self.signup_frame, text="Done", command=lambda: self.signup_command(self.username_entry.get(),self.email_entry.get(),self.password_entry.get(),root))
+        done_btn = ttk.Button(self.signup_frame, text="Done", 
+                              command=lambda: self.signup_command(self.username_entry.get(),
+                                                                  self.email_entry.get(),
+                                                                  self.password_entry.get(),
+                                                                  root))
         done_btn.grid(row=4, column=1, pady=10)
-        
         # 
+        self.label = add_label('',self.signup_frame)
+        
         self.login_button = tk.Button(
             root,
             text="Already have an account?",
             fg="blue",
-            bg="white",
             bd=0,
             cursor="hand2",
             font=("Helvetica", 9, "underline"),
@@ -48,8 +53,9 @@ class Signup:
             command = lambda:(self.login_button.grid_remove(), go_to_login_page(root, self.signup_frame))
         )
         self.login_button.grid(row=5, column=2, pady=10)
+       
         
-    def signup_command(self, username, email, password, root):
+    def signup_command(self, username, email, password, root): 
         password_hash = hashing_password(password)
         text = ''
         if not is_username_good_format(username):
@@ -67,8 +73,8 @@ class Signup:
             self.login_button.grid_remove()
             go_to_login_page(root, self.signup_frame)
             return
-        add_label(text,self.signup_frame)
-        #self.login_button.grid_remove()
+        self.label.config(text=text)
+        
         return
         
         

@@ -3,6 +3,8 @@ from tkinter import ttk
 from model.Login_methods import *
 from view.show_main_frame import go_to_main_frame
 from view.write_label import add_label
+from view.bind_enter_key import bind_enter
+
 class Login:
     def __init__(self, root):
         self.login_frame = tk.Frame(root)
@@ -21,20 +23,27 @@ class Login:
         ttk.Label(self.login_frame, text="Password:").grid(row=3, column=0, padx=10, pady=5, sticky="e")
         self.password_entry = ttk.Entry(self.login_frame, show="*")
         self.password_entry.grid(row=3, column=1, padx=10, pady=5, sticky="w")
-
+        self.label = add_label('',self.login_frame)
         # Done Button
         done_btn = ttk.Button(self.login_frame, text="Log in",
-                              command=lambda: self.login_command(self.email_entry.get(),
-                                                                  self.password_entry.get(),root))
+                              command=lambda: self.login_command(
+                                                                  self.email_entry.get(),
+                                                                  self.password_entry.get(),
+                                                                  root))
         done_btn.grid(row=4, column=1, pady=10)
+        
+        bind_enter(self.password_entry, self.login_command,
+           self.email_entry, self.password_entry, root = root)
+        bind_enter(self.email_entry, self.login_command,
+           self.email_entry, self.password_entry, root = root)
 
     def login_command(self,email,password,root):
         if check_if_email_exists(email) is not None:
             userId = check_is_password_correct(email,password)
             if userId is None:
-                add_label('Wrong email or password...',self.login_frame)
+                self.label.config(text = 'Wrong email or password...')
             else:
                 go_to_main_frame(root, userId, self.login_frame)
                 return            
         else:
-            add_label('Wrong email or password...',self.login_frame)
+            self.label.config(text = 'Wrong email or password...')
