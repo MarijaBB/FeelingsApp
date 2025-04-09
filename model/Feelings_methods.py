@@ -17,3 +17,11 @@ def getFeelingName(feelingId):
     mycursor.execute(sql,val)
     myresult = mycursor.fetchone()
     return myresult[0].strip()
+
+def getFeelings():
+    mydb = make_connection.mydb_connection()  
+    mycursor = mydb.cursor()
+    sql = 'SELECT FeelingName FROM Feelings'
+    mycursor.execute(sql)
+    myresult = mycursor.fetchall()
+    return [f[0] for f in myresult]
