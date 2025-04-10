@@ -5,6 +5,7 @@ class Message:
     def __init__(self,root):
         self.message_text = tk.Text(root,height=6,width=50, font=("Helvetica", 12, "italic"))
         self.message_text.grid(row=4, column=2, columnspan=3,pady=5,padx=5)
+        self.message_text.config(state="disabled")
         
     def write_message(self,feelingId):
         try:

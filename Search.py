@@ -44,28 +44,38 @@ class Search:
         ttk.Label(self.search_frame, text="Results:").grid(row=3, column=0, sticky="w", pady=10)
         self.result_box = tk.Text(self.search_frame, height=10, width=50)
         self.result_box.grid(row=4, column=0, columnspan=3, padx=10, pady=10)
+        self.result_box.config(state='disabled')
 
     def search_by_feeling(self):
         feeling = self.feeling_var.get()
         results = find_dates_for_feeling(self.userId,feeling)
         output = '\n'.join(map(str, results))
+        
+        self.result_box.config(state='normal')
         self.result_box.delete('1.0', tk.END)
         self.result_box.insert(tk.END, f"Dates for '{feeling}' feeling:\n{output}")
+        self.result_box.config(state='disabled')
 
     def search_by_date(self):
         from_date = self.from_date.get()
         to_date = self.to_date.get()
         results = find_feelings_for_dates(self.userId, from_date, to_date)
         output = '\n'.join(map(str, results))
+        
+        self.result_box.config(state='normal')
         self.result_box.delete('1.0', tk.END)
         self.result_box.insert(tk.END, f"Feelings from {from_date} to {to_date}:\n{output}")
+        self.result_box.config(state='disabled')
         
     def search_by_feeling_and_period(self):
         feeling = self.feeling_var.get()
         results = find_dates_for_feeling_in_period(self.userId, self.from_date.get(), self.to_date.get(), feeling)
         output = '\n'.join(map(str, results))
+        
+        self.result_box.config(state='normal')
         self.result_box.delete('1.0', tk.END)
         self.result_box.insert(tk.END, f"Dates for '{feeling}' feeling:\n{output}")
+        self.result_box.config(state='disabled')
     
     def go_back_to_main(self, root, userId):
         from view.show_main_frame import go_to_main_frame

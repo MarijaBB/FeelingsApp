@@ -5,6 +5,7 @@ class History:
     def __init__(self,root):
         self.history_text = tk.Text(root, height=10, width=55, font=("Helvetica", 11))
         self.history_text.grid(row=2, column=2, columnspan=3,pady=5,padx=5)
+        self.history_text.config(state="disabled")
 
     def add_entry(self,feelingId,userId):
         try:
@@ -27,14 +28,13 @@ class History:
             history = f"Error reading history: {e}"
             return
 
-        self.history_text.config(state="normal")
-
+        self.history_text.config(state="normal")  # Temporarily enable it
+        
         self.history_text.delete(1.0, tk.END) #delete previous history
         self.history_text.insert(tk.END, history_string)
+
+        self.history_text.config(state="disabled")  # Temporarily enable it
         
-        self.history_text.config(state="disabled") #user input not allowed
-
-
         self.history_text.tag_configure("highlighted_text", background = "pink", foreground="black")
         self.history_text.tag_configure("black_text", foreground="black")
 
