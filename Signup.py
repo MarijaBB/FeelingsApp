@@ -4,6 +4,7 @@ from services.validation import *
 from services.hash_password import hashing_password
 from model.Login_methods import *
 from view.show_login_frame import go_to_login_page
+from view.show_main_frame import go_to_main_frame
 from view.write_label import add_label
 
 class Signup:
@@ -70,8 +71,9 @@ class Signup:
            text = 'Bad format of password'
         else:
             new_user(username, email, password_hash)
+            userId = check_is_password_correct(email, password_hash) 
             self.login_button.grid_remove()
-            go_to_login_page(root, self.signup_frame)
+            go_to_main_frame(root, userId, self.signup_frame)
             return
         self.label.config(text=text)
         

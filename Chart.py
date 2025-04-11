@@ -20,11 +20,12 @@ class Chart:
 
     def plot_chart(self):
         list_feeling_time = History_methods.readHistory(self.userId)
-        feelings_list = [i for (i,_) in list_feeling_time]
-
-        if not feelings_list:
+        
+        if list_feeling_time == (None,None):
             messagebox.showinfo("No Data", "No feelings found in the history file.")
             return
+        
+        feelings_list = [i for (i,_) in list_feeling_time]           
 
         feeling_counts = Counter(feelings_list)
         sorted_feeling_counts = OrderedDict(sorted(feeling_counts.items(), key=lambda x: x[1]))
