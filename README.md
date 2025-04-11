@@ -12,8 +12,8 @@ Built-in modules that are used are: <br>
 📥 All data, including user credentials, logged emotions, associated messages and emotion types, is stored in a relational database *feeldb*.<br>
 📊 The app also provides an analysis feature that displays bar and pie charts of logged emotions over time.<br>
 💬 Based on chosen feeling, app displays message of support.<br>
+🔍 New Feature: Users can now filter logs by emotion or date to easily track their emotional history. <br>
 🔜 Upcoming features are: 
-- filtering logs by emotion or date 
 - exporting logging history and charts to pdf.<br>
 
 ⏳ **Status**: In progress 
