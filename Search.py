@@ -16,7 +16,7 @@ class Search:
         
     def make_search_page(self):
         #filter for feeling
-        ttk.Label(self.search_frame, text="Feelings:").grid(row=0, column=0, sticky="w")
+        ttk.Label(self.search_frame, text="Feelings:").grid(row=0, column=0, sticky="w",padx=40)
         self.feeling_var = tk.StringVar()
         self.feeling_dropdown = ttk.Combobox(self.search_frame, textvariable=self.feeling_var, state="readonly")
         self.feeling_dropdown['values'] = getFeelings()
@@ -27,24 +27,24 @@ class Search:
         self.feeling_button.grid(row=0, column=2)
 
         #filter for period
-        ttk.Label(self.search_frame, text="From Date:").grid(row=1, column=0, sticky="w", pady=10)
+        ttk.Label(self.search_frame, text="From Date:").grid(row=1, column=0, sticky="w", pady=10, padx=40)
         self.from_date = DateEntry(self.search_frame, date_pattern='dd/mm/yyyy')
-        self.from_date.grid(row=1, column=1, padx=10)
+        self.from_date.grid(row=1, column=1, padx=40)
 
-        ttk.Label(self.search_frame, text="To Date:").grid(row=2, column=0, sticky="w")
+        ttk.Label(self.search_frame, text="To Date:").grid(row=2, column=0, sticky="w", padx=40)
         self.to_date = DateEntry(self.search_frame, date_pattern='dd/mm/yyyy')
-        self.to_date.grid(row=2, column=1, padx=10)
+        self.to_date.grid(row=2, column=1, padx=40)
 
         self.date_button = ttk.Button(self.search_frame, text="Filter by period", command=self.search_by_date)
-        self.date_button.grid(row=2, column=2,padx=10,pady=10)
+        self.date_button.grid(row=2, column=2, padx=40,pady=10)
         
         self.df_button = ttk.Button(self.search_frame, text="Filter by feeling\n for period", command=self.search_by_feeling_and_period)
-        self.df_button.grid(row=3, column=2,padx=10)
+        self.df_button.grid(row=3, column=2, padx=40)
 
         # result text box
-        ttk.Label(self.search_frame, text="Results:").grid(row=4, column=0, sticky="w", pady=10)
+        ttk.Label(self.search_frame, text="Results:").grid(row=4, column=0, sticky="w", pady=10, padx=40)
         self.result_box = tk.Text(self.search_frame, height=10, width=50)
-        self.result_box.grid(row=5, column=0, columnspan=3, padx=10, pady=10)
+        self.result_box.grid(row=5, column=0, columnspan=3, padx=40, pady=10)
         self.result_box.config(state='disabled')
 
     def search_by_feeling(self):

@@ -56,6 +56,9 @@ class Start_page:
 
         search_btn = ttk.Button(center_frame, text='Filter', command = lambda: go_to_search_frame(root, self.userId))
         search_btn.grid(row=5, column=4, pady=3)
+        
+        logout_btn = ttk.Button(self.main_frame, text='Log out', command = lambda: root.destroy())
+        logout_btn.grid(row=7, column=6, pady=10, padx=3)
 
     def create_button(self, parent, feelingId, img_file, row, column):
         try:
