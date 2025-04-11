@@ -51,10 +51,10 @@ class Start_page:
         for i, feelingId in enumerate(right_buttons):
             self.create_button(right_frame, feelingId, Feelings_methods.getImage(feelingId), i, 0)
             
-        analysis_btn = ttk.Button(center_frame, text='Analysis', command = lambda: go_to_chart_frame(root, self.userId, self.main_frame))
+        analysis_btn = ttk.Button(center_frame, text='Analysis', command = lambda: go_to_chart_frame(root, self.userId))
         analysis_btn.grid(row=5, column=3, pady=3)
 
-        search_btn = ttk.Button(center_frame, text='Filter', command = lambda: go_to_search_frame(root, self.userId, self.main_frame))
+        search_btn = ttk.Button(center_frame, text='Filter', command = lambda: go_to_search_frame(root, self.userId))
         search_btn.grid(row=5, column=4, pady=3)
 
     def create_button(self, parent, feelingId, img_file, row, column):
