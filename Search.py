@@ -10,22 +10,23 @@ class Search:
         self.userId = userId
         
         back_btn2 = ttk.Button(self.search_frame, text="← Back", command=lambda: self.go_back_to_main(root, userId))
-        back_btn2.grid(row=5, column=3, sticky="w", padx=10, pady=5)
+        back_btn2.grid(row=6, column=3, sticky="w", padx=10, pady=5)
         self.search_frame.grid(row=0, column=0, sticky="nsew")
         self.make_search_page()
+        
     def make_search_page(self):
-        # FEELING FILTER
-        ttk.Label(self.search_frame, text="Filter by Feeling:").grid(row=0, column=0, sticky="w")
+        #filter for feeling
+        ttk.Label(self.search_frame, text="Feelings:").grid(row=0, column=0, sticky="w")
         self.feeling_var = tk.StringVar()
         self.feeling_dropdown = ttk.Combobox(self.search_frame, textvariable=self.feeling_var, state="readonly")
         self.feeling_dropdown['values'] = getFeelings()
         
         self.feeling_dropdown.grid(row=0, column=1, padx=10)
 
-        self.feeling_button = ttk.Button(self.search_frame, text="Search by feeling", command=self.search_by_feeling)
+        self.feeling_button = ttk.Button(self.search_frame, text="Filter by feeling", command=self.search_by_feeling)
         self.feeling_button.grid(row=0, column=2)
 
-        # DATE FILTER
+        #filter for period
         ttk.Label(self.search_frame, text="From Date:").grid(row=1, column=0, sticky="w", pady=10)
         self.from_date = DateEntry(self.search_frame, date_pattern='dd/mm/yyyy')
         self.from_date.grid(row=1, column=1, padx=10)
@@ -34,16 +35,16 @@ class Search:
         self.to_date = DateEntry(self.search_frame, date_pattern='dd/mm/yyyy')
         self.to_date.grid(row=2, column=1, padx=10)
 
-        self.date_button = ttk.Button(self.search_frame, text="Search by period", command=self.search_by_date)
+        self.date_button = ttk.Button(self.search_frame, text="Filter by period", command=self.search_by_date)
         self.date_button.grid(row=2, column=2,padx=10,pady=10)
         
-        self.df_button = ttk.Button(self.search_frame, text="Search by feeling\n for period", command=self.search_by_feeling_and_period)
-        self.df_button.grid(row=2, column=3,padx=10)
+        self.df_button = ttk.Button(self.search_frame, text="Filter by feeling\n for period", command=self.search_by_feeling_and_period)
+        self.df_button.grid(row=3, column=2,padx=10)
 
-        # RESULTS
-        ttk.Label(self.search_frame, text="Results:").grid(row=3, column=0, sticky="w", pady=10)
+        # result text box
+        ttk.Label(self.search_frame, text="Results:").grid(row=4, column=0, sticky="w", pady=10)
         self.result_box = tk.Text(self.search_frame, height=10, width=50)
-        self.result_box.grid(row=4, column=0, columnspan=3, padx=10, pady=10)
+        self.result_box.grid(row=5, column=0, columnspan=3, padx=10, pady=10)
         self.result_box.config(state='disabled')
 
     def search_by_feeling(self):
@@ -53,7 +54,7 @@ class Search:
         
         self.result_box.config(state='normal')
         self.result_box.delete('1.0', tk.END)
-        self.result_box.insert(tk.END, f"Dates for '{feeling}' feeling:\n{output}")
+        self.result_box.insert(tk.END, output)
         self.result_box.config(state='disabled')
 
     def search_by_date(self):
@@ -64,7 +65,7 @@ class Search:
         
         self.result_box.config(state='normal')
         self.result_box.delete('1.0', tk.END)
-        self.result_box.insert(tk.END, f"Feelings from {from_date} to {to_date}:\n{output}")
+        self.result_box.insert(tk.END, output)
         self.result_box.config(state='disabled')
         
     def search_by_feeling_and_period(self):
@@ -74,7 +75,7 @@ class Search:
         
         self.result_box.config(state='normal')
         self.result_box.delete('1.0', tk.END)
-        self.result_box.insert(tk.END, f"Dates for '{feeling}' feeling:\n{output}")
+        self.result_box.insert(tk.END,output)
         self.result_box.config(state='disabled')
     
     def go_back_to_main(self, root, userId):
