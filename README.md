@@ -15,5 +15,6 @@ Built-in modules that are used are: <br>
 🔍 New Feature: Users can now filter logs by emotion or date to easily track their emotional history. <br>
 🔜 Upcoming features are: 
 - exporting logging history and charts to pdf.<br>
+- retrieve weather info from an online API to display an icon of the current weather condition within the app's GUI.<br>
 
 ⏳ **Status**: In progress 
