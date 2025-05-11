@@ -1,13 +1,12 @@
 import tkinter as tk
 from PIL import Image, ImageTk  
 from tkinter import ttk
-from History import History
-from Message import Message
-from model import Feelings_methods
+from view.History import History
+from view.Message import Message
+from controller.FeelingsController import *
 from view.show_search_frame import go_to_search_frame
 from view.show_chart_frame import go_to_chart_frame
  
-# login logic required, for now I use UserId = 1
 class Start_page:
     def __init__(self, root, userId):
         self.main_frame = tk.Frame(root)
@@ -39,17 +38,20 @@ class Start_page:
         self.history.show_history(self.userId)
 
         self.message = Message(center_frame)
+        try:
+            for i, feelingId in enumerate(top_buttons):
+                self.create_button(top_frame, feelingId, get_image(feelingId), 0, i)
 
-        for i, feelingId in enumerate(top_buttons):
-            self.create_button(top_frame, feelingId, Feelings_methods.getImage(feelingId), 0, i)
+            #buttons for the left frame 
+            for i, feelingId in enumerate(left_buttons):
+                self.create_button(left_frame, feelingId, get_image(feelingId), i, 0)
 
-        #buttons for the left frame 
-        for i, feelingId in enumerate(left_buttons):
-            self.create_button(left_frame, feelingId, Feelings_methods.getImage(feelingId), i, 0)
-
-        #buttons for the right frame 
-        for i, feelingId in enumerate(right_buttons):
-            self.create_button(right_frame, feelingId, Feelings_methods.getImage(feelingId), i, 0)
+            #buttons for the right frame 
+            for i, feelingId in enumerate(right_buttons):
+                self.create_button(right_frame, feelingId, get_image(feelingId), i, 0)
+        except RuntimeError as e:
+            print()
+            tk.messagebox.showerror("Runtime Error", str(e))
             
         analysis_btn = ttk.Button(center_frame, text='Analysis', command = lambda: go_to_chart_frame(root, self.userId))
         analysis_btn.grid(row=5, column=3, pady=3)
@@ -66,9 +68,12 @@ class Start_page:
             image = image.resize((100, 100), Image.LANCZOS)
             photo = ImageTk.PhotoImage(image)
             self.images[feelingId] = photo  # Keep reference
-            btn = ttk.Button(parent, image=photo, text=Feelings_methods.getFeelingName(feelingId), compound="top",
+            btn = ttk.Button(parent, image=photo, text = read_feeling_name(feelingId), compound="top",
                             command=lambda f=feelingId: (self.history.add_entry(f, self.userId), self.message.write_message(f)))
             btn.grid(row=row, column=column, pady=5)  # Position button in grid
+        except RuntimeError as e:
+            tk.messagebox.showerror("Runtime Error", str(e))
         except Exception as e:
-            print(f"Error loading image for {Feelings_methods.getFeelingName()}: {e}")
+            tk.messagebox.showerror("Unexpected Error", str(e))
+                    
             

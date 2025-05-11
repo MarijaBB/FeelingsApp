@@ -1,8 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
-from services.validation import *
-from services.hash_password import hashing_password
-from model.Login_methods import *
+from controller.AuthController import try_to_signup
+from controller.UserController import add_new_user_and_login
 from view.show_login_frame import go_to_login_page
 from view.show_main_frame import go_to_main_frame
 from view.write_label import add_label
@@ -57,27 +56,18 @@ class Signup:
        
         
     def signup_command(self, username, email, password, root): 
-        password_hash = hashing_password(password)
-        text = ''
-        if not is_username_good_format(username):
-           text = 'Bad format of username'
-        elif check_if_username_exists(username) is not None:
-           text = 'Username exists'
-        elif not is_email_good_format(email):
-           text = 'Bad format of email'
-        elif check_if_email_exists(email) is not None:
-           text = 'Email exists'
-        elif not is_password_good_format(password):
-           text = 'Bad format of password'
+        text = try_to_signup(username, email, password)
+        if text!=1:
+            self.label.config(text=text)
         else:
-            new_user(username, email, password_hash)
-            userId = check_is_password_correct(email, password_hash) 
+            userId = add_new_user_and_login(username, email, password)
+            print(userId)
             self.login_button.grid_remove()
             go_to_main_frame(root, userId, self.signup_frame)
             return
-        self.label.config(text=text)
-        
+          
         return
+
         
         
     

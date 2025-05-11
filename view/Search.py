@@ -1,9 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
 from tkcalendar import DateEntry
-from model.Search_methods import *
-from model.Feelings_methods import getFeelings
-
+from controller.SearchController import read_search_results
+from controller.FeelingsController import getFeelings
 class Search:
     def __init__(self, root, userId):
         self.search_frame = tk.Frame(root)
@@ -53,7 +52,7 @@ class Search:
         self.result_box.config(state='disabled')
 
     def search(self,feelingName, from_date, to_date):
-        results = find_entries(self.userId, feelingName, from_date, to_date)
+        results = read_search_results(self.userId, feelingName, from_date, to_date)
         output = '\n'.join(map(str, results))
         
         self.result_box.config(state='normal')

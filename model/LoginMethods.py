@@ -13,7 +13,6 @@ def check_if_username_exists(username):
         return None
     return myresult[0]
 
-
 def check_if_email_exists(email):
     mydb = make_connection.mydb_connection()
     mycursor = mydb.cursor()
@@ -34,13 +33,10 @@ def check_is_password_correct(email, password):
     myresult = mycursor.fetchone()
     if myresult == None:
         return None
-    
     if bcrypt.checkpw(password.encode(), myresult[0].encode()):
         return myresult[1]
     
     return None
-    
-    
 
 def new_user(username, email, password_hash):
     mydb = make_connection.mydb_connection()

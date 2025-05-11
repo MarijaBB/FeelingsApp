@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-from model.Login_methods import *
+from controller.AuthController import *
 from view.show_main_frame import go_to_main_frame
 from view.write_label import add_label
 from view.bind_enter_key import bind_enter
@@ -53,8 +53,8 @@ class Login:
         self.signup_button.grid(row=4, column=2, pady=10)
 
     def login_command(self,email,password,root):
-        if check_if_email_exists(email) is not None:
-            userId = check_is_password_correct(email,password)
+        if check_email(email) is not None:
+            userId = check_password(email,password)
             if userId is None:
                 self.label.config(text = 'Wrong email or password...')
             else:
@@ -65,5 +65,5 @@ class Login:
             self.label.config(text = 'Wrong email or password...')
             
     def go_to_signup_page(self,root):
-        from Signup import Signup
+        from view.Signup import Signup
         Signup(root)

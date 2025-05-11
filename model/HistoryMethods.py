@@ -20,9 +20,3 @@ def readHistory(userId):
 	mycursor.execute(sql, val)
 	myresult = mycursor.fetchall()  # List of tuples
 	return myresult if myresult else (None,None)
-
-def formatHistory(history):
-	history_formatted = []
-	for (feeling, time) in history:
-		history_formatted.append(time.strftime("%d.%m.%Y %H:%M:%S")+' ** '+feeling+' ** \n')
-	return history_formatted

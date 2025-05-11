@@ -1,8 +1,7 @@
 import tkinter as tk
-from Signup import Signup
-
+from view.Signup import Signup
 root = tk.Tk()
 root.title("Feelings Logger")
 
-signup = Signup(root)
+Signup(root)
 root.mainloop()

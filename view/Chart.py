@@ -4,7 +4,7 @@ from tkinter import messagebox
 import matplotlib.pyplot as plt
 from collections import Counter, OrderedDict
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-from model import History_methods
+from controller.HistoryController import get_history
 
 class Chart:
     def __init__(self, root, userId):
@@ -19,7 +19,7 @@ class Chart:
 
 
     def plot_chart(self):
-        list_feeling_time = History_methods.readHistory(self.userId)
+        list_feeling_time = get_history(self.userId)
         
         if list_feeling_time == (None,None):
             messagebox.showinfo("No Data", "No feelings found in the history file.")
@@ -49,6 +49,7 @@ class Chart:
         self.canvas = FigureCanvasTkAgg(fig, master=self.chart_frame)
         canvas_widget = self.canvas.get_tk_widget()
         canvas_widget.grid(row=0,column=0, pady=5, padx=5)
+        
         
     def go_back_to_main(self, root, userId):
         from view.show_main_frame import go_to_main_frame
