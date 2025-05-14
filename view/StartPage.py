@@ -3,6 +3,7 @@ from PIL import Image, ImageTk
 from tkinter import ttk
 from view.History import History
 from view.Message import Message
+from controller.WeatherController import *
 from controller.FeelingsController import *
 from view.show_search_frame import go_to_search_frame
 from view.show_chart_frame import go_to_chart_frame
@@ -61,6 +62,9 @@ class Start_page:
         
         logout_btn = ttk.Button(self.main_frame, text='Log out', command = lambda: root.destroy())
         logout_btn.grid(row=7, column=6, pady=10, padx=3)
+        
+        WeatherController(self.main_frame)
+       
 
     def create_button(self, parent, feelingId, img_file, row, column):
         try:
